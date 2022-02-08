@@ -58,7 +58,7 @@ public class WalletService {
 		Transaction fromUserTransaction = new Transaction(fromUser, money + " sent to " + toUsername,
 				fromUserCurrentBalance, fromUser.getWalletBalance());
 		transactionRepository.save(fromUserTransaction);
-		Transaction toUserTransaction = new Transaction(toUser, money + " received from " + fromUser,
+		Transaction toUserTransaction = new Transaction(toUser, money + " received from " + fromUsername,
 				toUserCurrentBalance, toUser.getWalletBalance());
 		transactionRepository.save(toUserTransaction);
 		logger.info("send money transaction is successfull");

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shivam.spring.login.models.User;
@@ -19,6 +20,9 @@ public class ProfileService {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	PasswordEncoder encoder;
+	
 	public User viewUserProfile(String username) throws UsernameNotFoundException{
 		User user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
@@ -31,7 +35,7 @@ public class ProfileService {
 		logger.info("updating username {}", username);
 		user.setEmail(updatedUser.getEmail());
 		user.setUsername(updatedUser.getUsername());
-		user.setPassword(updatedUser.getPassword());
+		user.setPassword(encoder.encode(updatedUser.getPassword()));
 		userRepository.save(user);
 		logger.info("successfully updated username {}", username);
 		return new MessageResponse("User updated successfully");

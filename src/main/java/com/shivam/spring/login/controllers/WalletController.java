@@ -29,6 +29,7 @@ public class WalletController {
 	WalletService walletService;
 
 	@GetMapping("/add/money")
+	@Transactional(rollbackFor = { SQLException.class })
 	public ResponseEntity<?> addMoney(@RequestParam String username, @RequestParam Long money) {
 		logger.info("add money API called");
 		try {
@@ -52,7 +53,7 @@ public class WalletController {
 	}
 
 	@GetMapping("/send/money")
-	@Transactional()
+	@Transactional(rollbackFor = { SQLException.class })
 	public ResponseEntity<?> sendMoney(@RequestParam String fromUsername, @RequestParam String toUsername,
 			@RequestParam Long money) throws UsernameNotFoundException, SQLException {
 		logger.info("send money API called");
